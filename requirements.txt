@@ -6,3 +6,4 @@ catboost
 dill
 mlflow
 Flask
+dagshub

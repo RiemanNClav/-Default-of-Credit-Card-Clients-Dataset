@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pizza Prices</title>
+    <title>Predicción de Crédito</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@
         }
 
         h1 {
-            color: #ff7f50; /* Naranja */
+            color: #ff7f50; 
             margin-bottom: 20px;
             font-size: 24px;
         }
@@ -37,7 +37,7 @@
         .form-label {
             text-align: left;
             margin-bottom: 5px;
-            color: #4169e1; /* Azul */
+            color: #4169e1; 
         }
 
         .form-control {
@@ -48,7 +48,7 @@
         }
 
         .btn {
-            background-color: #ff7f50; /* Naranja */
+            background-color: #ff7f50;
             color: white;
             padding: 10px;
             border: none;
@@ -57,7 +57,7 @@
         }
 
         .btn:hover {
-            background-color: #ff6347; /* Naranja más oscuro */
+            background-color: #ff6347; 
         }
 
         select {
@@ -66,90 +66,92 @@
             border: 1px solid #ccc;
             margin-bottom: 15px;
             padding: 5px;
-            overflow-y: auto; /* Habilita el scroll vertical */
+            overflow-y: auto; 
         }
 
         h2 {
-            color: #4169e1; /* Azul */
+            color: #4169e1; 
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="login">
-        <h1>Price personalized pizza</h1>
+        <h1>Predicción de Crédito</h1>
         
         <form action="{{ url_for('predict_datapoint') }}" method="post">
             <h1>
-                <legend>personalized pizza</legend>
+                <legend>Detalles del Cliente</legend>
             </h1>
             <div class="mb-3">
-                <label class="form-label">Diameter</label>
-                <input class="form-control" type="number" name="diameter" placeholder="Enter diameter" step="0.01" required />
+                <label class="form-label">Límite de Crédito</label>
+                <input class="form-control" type="number" name="LIMIT_BAL" placeholder="Ingrese el límite de crédito" step="0.01" required />
             </div>
             <div class="mb-3">
-                <label class="form-label">Company</label>
-                <select class="form-control" name="company" required>
-                    {% for company in companies %}
-                        <option value="{{ company }}">{{ company }}</option>
+                <label class="form-label">Sexo</label>
+                <select class="form-control" name="SEX" required>
+                    {% for sex in SEXs %}
+                        <option value="{{ sex }}">{{ sex }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Topping</label>
-                <select class="form-control" name="topping" required>
-                    {% for topping in toppings %}
-                        <option value="{{ topping }}">{{ topping }}</option>
+                <label class="form-label">Nivel Educativo</label>
+                <select class="form-control" name="EDUCATION" required>
+                    {% for education in EDUCATIONs %}
+                        <option value="{{ education }}">{{ education }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Variant</label>
-                <select class="form-control" name="variant" required>
-                    {% for variant in variants %}
-                        <option value="{{ variant }}">{{ variant }}</option>
+                <label class="form-label">Estado Civil</label>
+                <select class="form-control" name="MARRIAGE" required>
+                    {% for marriage in MARRIAGsE %}
+                        <option value="{{ marriage }}">{{ marriage }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Size</label>
-                <select class="form-control" name="size" required>
-                    {% for size in sizes %}
-                        <option value="{{ size }}">{{ size }}</option>
+                <label class="form-label">Edad</label>
+                <select class="form-control" name="AGE" required>
+                    {% for age in AGEs %}
+                        <option value="{{ age }}">{{ age }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Extra Sauce</label>
-                <select class="form-control" name="extra_sauce" required>
-                    {% for extra_sauce in extra_sauces %}
-                        <option value="{{ extra_sauce }}">{{ extra_sauce }}</option>
-                    {% endfor %}
-                </select>
+                <label class="form-label">Pago Anterior (1)</label>
+                <input class="form-control" type="number" name="PAY_1" placeholder="Ingrese el pago anterior 1" step="0.01" required />
             </div>
             <div class="mb-3">
-                <label class="form-label">Extra Cheese</label>
-                <select class="form-control" name="extra_cheese" required>
-                    {% for extra_cheese in extra_cheeses %}
-                        <option value="{{ extra_cheese }}">{{ extra_cheese }}</option>
-                    {% endfor %}
-                </select>
+                <label class="form-label">Pago Anterior (2)</label>
+                <input class="form-control" type="number" name="PAY_2" placeholder="Ingrese el pago anterior 2" step="0.01" required />
             </div>
             <div class="mb-3">
-                <label class="form-label">Extra Mushrooms</label>
-                <select class="form-control" name="extra_mushrooms" required>
-                    {% for extra_mushroom in extra_mushrooms %}
-                        <option value="{{ extra_mushroom }}">{{ extra_mushroom }}</option>
-                    {% endfor %}
-                </select>
+                <label class="form-label">Pago Anterior (3)</label>
+                <input class="form-control" type="number" name="PAY_3" placeholder="Ingrese el pago anterior 2" step="0.01" required />
             </div>
             <div class="mb-3">
-                <input class="btn" type="submit" value="Submit" />
+                <label class="form-label">Pago Anterior (4)</label>
+                <input class="form-control" type="number" name="PAY_4" placeholder="Ingrese el pago anterior 2" step="0.01" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Pago Anterior (5)</label>
+                <input class="form-control" type="number" name="PAY_5" placeholder="Ingrese el pago anterior 2" step="0.01" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Pago Anterior (6)</label>
+                <input class="form-control" type="number" name="PAY_6" placeholder="Ingrese el pago anterior 2" step="0.01" required />
+            </div>
+
+
+            <div class="mb-3">
+                <input class="btn" type="submit" value="Subm" />
             </div>
         </form>
         
         <h2>
-            Prediction: {{ results }}
+            Predicción: {{ result }}
         </h2>
     </div>
 </body>
