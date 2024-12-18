@@ -1,12 +1,11 @@
 import mlflow
-import os
 import dagshub
-# from dotenv import load_dotenv
 
 
 def run_id(name_experiment):
 
-    dagshub.init(repo_owner='RiemanNClav', repo_name='Traffic-Alert-CDMX-Chatbot', mlflow=True)
+    dagshub.init(repo_owner='RiemanNClav', 
+                 repo_name='-Default-of-Credit-Card-Clients-Dataset', mlflow=True)
 
     mlflow.set_experiment(name_experiment)
 

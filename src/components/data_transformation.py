@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import os
 
 
-# Asegúrate de que src sea parte de PYTHONPATH
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)
@@ -32,11 +31,19 @@ class DataCleaning(object):
         #train_df = train_path
         #test_df = test_path
 
-        train_df['EDUCATION'] = train_df['EDUCATION'].replace({0: 4, 5: 4, 6: 4})
+        train_df["SEX"] = train_df["SEX"].astype("str")
+        train_df["EDUCATION"] = train_df["EDUCATION"].astype("str")
+        train_df["MARRIAGE"] = train_df["MARRIAGE"].astype("str")
+        train_df["AGE"] = train_df["AGE"].astype("str")
+        train_df['EDUCATION'] = train_df['EDUCATION'].replace({'0': '4', '5': '4', '6': '4'})
         train_df.rename(columns={'default payment next month': 'DEFAULT','PAY_0': 'PAY_1'}, inplace=True)
 
 
-        test_df['EDUCATION'] = test_df['EDUCATION'].replace({0: 4, 5: 4, 6: 4})
+        test_df["SEX"] = test_df["SEX"].astype("str")
+        test_df["EDUCATION"] = test_df["EDUCATION"].astype("str")
+        test_df["MARRIAGE"] = test_df["MARRIAGE"].astype("str")
+        test_df["AGE"] = test_df["AGE"].astype("str")
+        test_df['EDUCATION'] = test_df['EDUCATION'].replace({'0': '4', '5': '4', '6': '4'})
         test_df.rename(columns={'default payment next month': 'DEFAULT','PAY_0': 'PAY_1'}, inplace=True)
         
         return train_df, test_df
@@ -56,10 +63,10 @@ class DataTransformation:
         '''
         try:
             
-            numerical_columns =['LIMIT_BAL','PAY_1','PAY_2', 'PAY_3', 'PAY_4',
-                                'PAY_5', 'PAY_6', 'BILL_AMT1', 'BILL_AMT2',
-                                'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
-                                'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
+            numerical_columns =['LIMIT_BAL','PAY_1','PAY_2', 'PAY_3', 'PAY_4', "PAY_5", "PAY_6"]
+                                # 'PAY_5', 'PAY_6', 'BILL_AMT1', 'BILL_AMT2',
+                                # 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1',
+                                # 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6']
             
             categorical_columns = ['SEX', 'EDUCATION', 'MARRIAGE', 'AGE']
 
@@ -95,7 +102,6 @@ class DataTransformation:
 
         try:
             train_df= train_path
-            print(f'train_df = {train_df}')
             test_df= test_path
 
             logging.info(f"Read train and test data completed")
@@ -106,10 +112,12 @@ class DataTransformation:
 
             target_column_name="DEFAULT"
 
-            input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
+            input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)[['LIMIT_BAL','PAY_1','PAY_2', 'PAY_3', 'PAY_4','PAY_5', 'PAY_6', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE']]
+
+            print(input_feature_train_df)
             target_feature_train_df=train_df[target_column_name]
 
-            input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
+            input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)[['LIMIT_BAL','PAY_1','PAY_2', 'PAY_3', 'PAY_4','PAY_5', 'PAY_6', 'SEX', 'EDUCATION', 'MARRIAGE', 'AGE']]
             target_feature_test_df=test_df[target_column_name]
 
             logging.info(

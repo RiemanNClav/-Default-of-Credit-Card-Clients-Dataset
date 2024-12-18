@@ -1,5 +1,10 @@
 import sys
 import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(current_dir))
+sys.path.insert(0, project_root)
+
+
 import pandas as pd
 from src.exception import CustomException
 from src.utils import load_object
@@ -13,10 +18,8 @@ class PredictPipeline:
         try:
             model_path=os.path.join("artifacts","model.pkl")
             preprocessor_path=os.path.join('artifacts','preprocessor.pkl')
-            print("Before Loading")
             model=load_object(file_path=model_path)
             preprocessor=load_object(file_path=preprocessor_path)
-            print("After Loading")
             data_scaled=preprocessor.transform(features)
             preds=model.predict(data_scaled)
             return preds
@@ -25,46 +28,48 @@ class PredictPipeline:
             raise CustomException(e,sys)
 
 
-
 class CustomData:
-    def __init__(  self,
-        diameter: int,
-        company: str,
-        topping: str,
-        variant: str,
-        size: str,
-        extra_sauce: str,
-        extra_cheese: str,
-        extra_mushrooms: str):
+    def __init__(
+        self,
+        limit_bal: int,
+        sex: str,
+        education: str,
+        marriage: str,
+        age: str,
+        pay_1: int,
+        pay_2: int,
+        pay_3: int,
+        pay_4: int,
+        pay_5: int,
+        pay_6: int
+    ):
+        self.limit_bal = limit_bal
+        self.sex = sex
+        self.education = education
+        self.marriage = marriage
+        self.age = age
+        self.pay_1 = pay_1
+        self.pay_2 = pay_2
+        self.pay_3 = pay_3
+        self.pay_4 = pay_4
+        self.pay_5 = pay_5
+        self.pay_6 = pay_6
 
-        self.diameter = diameter
-
-        self.company = company
-
-        self.topping = topping
-
-        self.variant = variant
-
-        self.size = size
-
-        self.extra_sauce = extra_sauce
-
-        self.extra_cheese = extra_cheese
-
-        self.extra_mushrooms = extra_mushrooms
 
     def get_data_as_data_frame(self):
         try:
             custom_data_input_dict = {
-                "diameter": [self.diameter],
-                "company": [self.company],
-                "topping": [self.topping],
-                "variant": [self.variant],
-                "size": [self.size],
-                "extra_sauce": [self.extra_sauce],
-                "extra_cheese": [self.extra_cheese],
-                "extra_mushrooms": [self.extra_mushrooms],
-            }
+                "LIMIT_BAL": [self.limit_bal],
+                "SEX": [self.sex],
+                "EDUCATION": [self.education],
+                "MARRIAGE": [self.marriage],
+                "AGE": [self.age],
+                "PAY_1": [self.pay_1],
+                "PAY_2": [self.pay_2],
+                "PAY_3": [self.pay_3],
+                "PAY_4": [self.pay_4],
+                "PAY_5": [self.pay_5],
+                "PAY_6": [self.pay_6]}
 
             return pd.DataFrame(custom_data_input_dict)
 
@@ -72,22 +77,27 @@ class CustomData:
             raise CustomException(e, sys)
 
 
-if __name__=="__main__":
 
-    data = CustomData(40,
-                  "A",
-                  "vegetables",
-                  "thai_veggie",
-                  "small",
-                  "no",
-                  "no",
-                  "no")
+if __name__ == "__main__":
+    data = CustomData(
+        limit_bal=120000,
+        sex='2',
+        education='2',
+        marriage='1',
+        age='24',
+        pay_1=-1,
+        pay_2=2,
+        pay_3=0,
+        pay_4=0,
+        pay_5=0,
+        pay_6=2
+    )
 
-    pred_df=data.get_data_as_data_frame()
+    pred_df = data.get_data_as_data_frame()
     print(pred_df)
     print("Before Prediction")
 
-    predict_pipeline=PredictPipeline()
+    predict_pipeline = PredictPipeline()
     print("Mid Prediction")
-    results=predict_pipeline.predict(pred_df)
-    print(f"price prediction: {results}")
+    results = predict_pipeline.predict(pred_df)
+    print(f"Default Payment Prediction: {results}")

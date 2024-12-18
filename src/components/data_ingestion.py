@@ -2,7 +2,6 @@ import os
 import sys
 
 
-# Asegúrate de que src sea parte de PYTHONPATH
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.insert(0, project_root)
@@ -16,8 +15,9 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
 from src.components.data_transformation import DataTransformation, DataCleaning
+from src.components.model_trainer import ModelTrainer
+from src.components.create_run import run_id
 
-# #from src.components.model_trainer import ModelTrainer
 
 # from src.components.model_trainer_mlflow import ModelTrainer
 
@@ -37,9 +37,6 @@ class DataIngestion:
         logging.info("Entered the data ingestion method or component")
         try:
             df=pd.read_csv("notebook/data/credit_data.csv")
-            df["SEX"] = df["SEX"].astype("str")
-            df["EDUCATION"] = df["EDUCATION"].astype("str")
-            df["MARRIAGE"] = df["MARRIAGE"].astype("str")
             df = df.drop(["ID"], axis=1)
 
             logging.info('Read the dataset as dataframe')
@@ -72,14 +69,14 @@ if __name__=="__main__":
     cleaning = DataCleaning()
     train_data, test_data = cleaning.initiate_data_cleaning(train_data, test_data)
 
+    print(f'tipos de datos {train_data.dtypes}')
+
     data_transformation=DataTransformation()
     train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
 
-    print(f"train_arr = {train_arr}")
-    print(f"test_arr = {test_arr}")
+    id = run_id('clasification_service')
 
+    print(f"Id: {id}")
 
-
-    # modeltrainer=ModelTrainer()
-    # r2 = modeltrainer.initiate_model_trainer(train_arr, test_arr)
-    # print(f'r2: {r2}')
+    modeltrainer = ModelTrainer()
+    modeltrainer.initiate_model_trainer(train_arr, test_arr, id)
