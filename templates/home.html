@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pizza Prices</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff7f50; /* Naranja */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            text-align: left;
+            margin-bottom: 5px;
+            color: #4169e1; /* Azul */
+        }
+
+        .form-control {
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            background-color: #ff7f50; /* Naranja */
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ff6347; /* Naranja más oscuro */
+        }
+
+        select {
+            height: 35px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            padding: 5px;
+            overflow-y: auto; /* Habilita el scroll vertical */
+        }
+
+        h2 {
+            color: #4169e1; /* Azul */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <h1>Price personalized pizza</h1>
+        
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+            <h1>
+                <legend>personalized pizza</legend>
+            </h1>
+            <div class="mb-3">
+                <label class="form-label">Diameter</label>
+                <input class="form-control" type="number" name="diameter" placeholder="Enter diameter" step="0.01" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Company</label>
+                <select class="form-control" name="company" required>
+                    {% for company in companies %}
+                        <option value="{{ company }}">{{ company }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Topping</label>
+                <select class="form-control" name="topping" required>
+                    {% for topping in toppings %}
+                        <option value="{{ topping }}">{{ topping }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Variant</label>
+                <select class="form-control" name="variant" required>
+                    {% for variant in variants %}
+                        <option value="{{ variant }}">{{ variant }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Size</label>
+                <select class="form-control" name="size" required>
+                    {% for size in sizes %}
+                        <option value="{{ size }}">{{ size }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Extra Sauce</label>
+                <select class="form-control" name="extra_sauce" required>
+                    {% for extra_sauce in extra_sauces %}
+                        <option value="{{ extra_sauce }}">{{ extra_sauce }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Extra Cheese</label>
+                <select class="form-control" name="extra_cheese" required>
+                    {% for extra_cheese in extra_cheeses %}
+                        <option value="{{ extra_cheese }}">{{ extra_cheese }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Extra Mushrooms</label>
+                <select class="form-control" name="extra_mushrooms" required>
+                    {% for extra_mushroom in extra_mushrooms %}
+                        <option value="{{ extra_mushroom }}">{{ extra_mushroom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <input class="btn" type="submit" value="Submit" />
+            </div>
+        </form>
+        
+        <h2>
+            Prediction: {{ results }}
+        </h2>
+    </div>
+</body>
+</html>
