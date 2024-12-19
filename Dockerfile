@@ -4,7 +4,12 @@ FROM python:3.8-slim
 
 RUN apt update -y && apt install awscli -y
 WORKDIR /app
-COPY . /app
+COPY artifacts /app/artifacts
+COPY src /app/src
+COPY templates /app/templates
+COPY app.py /app/app.py
+COPY requirements.txt /app/requirements.txt
+
 
 
 RUN python -m pip install -r requirements.txt
